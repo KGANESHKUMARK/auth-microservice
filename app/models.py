@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 
 class UserSignup(BaseModel):
+    app_name: str
     username: str
     email: EmailStr
     phone: str

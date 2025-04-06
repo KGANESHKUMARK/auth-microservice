@@ -1,7 +1,5 @@
 fastapi
 uvicorn
-asyncpg
-sqlalchemy
 python-dotenv
-passlib[bcrypt]
-supabase
+supabase-py
+starlette
