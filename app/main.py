@@ -34,6 +34,11 @@ app = FastAPI(
 
 APP_URL = os.getenv("APP_URL", "http://localhost:8000")  # fallback for local
 
+# ➡️ Add this basic health check
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 @app.get("/", tags=["Root"])
 async def root():
     logger.info("App Root Endpoint Accessed")

@@ -57,6 +57,12 @@ async def login(user: UserLogin):
         logger.info(f"User login: {user.email}")
         return {"message": "User logged in successfully.", "session": response}
     except Exception as e:
+        if "Email not confirmed" in str(e):
+            logger.error(f"Login failed: Email not confirmed for {user.email}")
+            raise HTTPException(
+                status_code=400,
+                detail="Email not confirmed. Please check your inbox and confirm your email."
+            )
         logger.error(f"Login failed: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -87,4 +93,14 @@ async def get_all_users():
         return {"message": "All users fetched successfully.", "users": users}
     except Exception as e:
         logger.error(f"Failed to fetch all users: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@router.post("/resend-confirmation")
+async def resend_confirmation(email: str):
+    try:
+        response = supabase_client.auth.resend({"email": email})
+        logger.info(f"Confirmation email resent to: {email}")
+        return {"message": "Confirmation email resent successfully."}
+    except Exception as e:
+        logger.error(f"Failed to resend confirmation email: {e}")
         raise HTTPException(status_code=400, detail=str(e))
