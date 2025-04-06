@@ -34,7 +34,7 @@ async def root():
     })
     
 # Include router
-app.include_router(router)
+# app.include_router(router)
 
 @app.on_event("startup")
 async def startup_event():
